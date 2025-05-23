@@ -6,3 +6,12 @@
 //
 
 import Foundation
+
+struct ProductInCart: Identifiable {
+   var id: Int {
+      product.id
+   }
+
+   let product: Product
+   var quantity: Int
+}
