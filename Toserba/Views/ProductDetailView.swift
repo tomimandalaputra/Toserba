@@ -13,6 +13,8 @@ struct ProductDetailView: View {
    @Environment(CartManager.self) private var cartManager: CartManager
 
    var body: some View {
+      @Bindable var cartManager = cartManager
+
       AppScaffold {
          ScrollView {
             VStack(alignment: .leading) {
@@ -88,6 +90,7 @@ struct ProductDetailView: View {
 
                   Button(action: {
                      cartManager.addToCart(product: product)
+                     cartManager.showAlert = true
                   }, label: {
                      Text("Add to cart")
                   })
@@ -96,6 +99,9 @@ struct ProductDetailView: View {
 
                Spacer()
             }
+         }
+         .alert("Added To Cart", isPresented: $cartManager.showAlert) {} message: {
+            Text("You have added \(product.title) to your cart!")
          }
       }
    }

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CartView: View {
-   @Environment(CartManager.self) var viewModel: CartManager
+   @Environment(CartManager.self) var cartManager: CartManager
 
    fileprivate func CartRow(productInCart: ProductInCart) -> some View {
       HStack {
@@ -51,7 +51,11 @@ struct CartView: View {
                .font(.system(size: 18, weight: .semibold))
                .foregroundStyle(Color.textMain)
 
-            Stepper("Quantity \(productInCart.quantity)") {} onDecrement: {}
+            Stepper("Quantity \(productInCart.quantity)") {
+               cartManager.addToCart(product: productInCart.product)
+            } onDecrement: {
+               cartManager.removeFromCart(product: productInCart.product)
+            }
          }
       }
    }
@@ -59,8 +63,30 @@ struct CartView: View {
    var body: some View {
       AppScaffold {
          VStack {
-            List(viewModel.productsInCart) { productInCart in
+            List(cartManager.productsInCart) { productInCart in
                CartRow(productInCart: productInCart)
+            }
+            .scrollContentBackground(.hidden)
+
+            VStack {
+               Divider()
+               HStack {
+                  Text("Total: \(cartManager.displayTotalQuantity)")
+                     .font(.system(size: 16, weight: .medium))
+                     .foregroundStyle(Color.textMain)
+
+                  Spacer()
+
+                  Text("$\(cartManager.displayTotalCartPrice, specifier: "%.2f")")
+                     .font(.system(size: 16, weight: .bold))
+                     .foregroundStyle(Color.textMain)
+               }.padding(.horizontal)
+            }
+         }
+         .overlay {
+            if cartManager.productsInCart.isEmpty {
+               Text("Noting to see here")
+                  .foregroundStyle(Color.textMain)
             }
          }
       }
