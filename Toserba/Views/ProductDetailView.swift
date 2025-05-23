@@ -10,6 +10,8 @@ import SwiftUI
 struct ProductDetailView: View {
    let product: Product
 
+   @Environment(CartManager.self) private var cartManager: CartManager
+
    var body: some View {
       AppScaffold {
          ScrollView {
@@ -84,7 +86,9 @@ struct ProductDetailView: View {
                      .foregroundStyle(Color.textMain)
                      .padding(.bottom, 8)
 
-                  Button(action: {}, label: {
+                  Button(action: {
+                     cartManager.addToCart(product: product)
+                  }, label: {
                      Text("Add to cart")
                   })
                   .buttonStyle(PrimaryButtonStyle())
@@ -98,5 +102,5 @@ struct ProductDetailView: View {
 }
 
 #Preview {
-   ProductDetailView(product: Product(id: 1, title: "Title", price: 10.00, description: "Description", category: "t-shirt", image: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg", rating: Rating(rate: 4.6, count: 200)))
+   ProductDetailView(product: Product(id: 1, title: "Title", price: 10.00, description: "Description", category: "t-shirt", image: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg", rating: Rating(rate: 4.6, count: 200))).environment(CartManager())
 }
