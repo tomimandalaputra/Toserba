@@ -44,10 +44,12 @@ struct FavoritesView: View {
          VStack(alignment: .leading) {
             Text(product.title)
                .font(.system(size: 15, weight: .bold))
+               .foregroundStyle(Color.textMain)
                .padding(.bottom, 1)
 
             Text(product.description)
                .font(.system(size: 15, weight: .bold))
+               .foregroundStyle(Color.textMain)
                .lineLimit(2)
          }
 

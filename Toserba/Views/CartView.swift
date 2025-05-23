@@ -44,6 +44,7 @@ struct CartView: View {
          VStack(alignment: .leading) {
             Text(productInCart.product.title)
                .font(.system(size: 15, weight: .bold))
+               .foregroundStyle(Color.textMain)
                .padding(.bottom, 1)
 
             Text("$\(productInCart.product.price, specifier: "%.2f")")
