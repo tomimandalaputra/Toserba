@@ -10,6 +10,7 @@ import SwiftUI
 @main
 struct ToserbaApp: App {
    @State var favoritesManager = FavoritesManager()
+   @State var cartManager = CartManager()
 
    var body: some Scene {
       WindowGroup {
@@ -31,6 +32,7 @@ struct ToserbaApp: App {
                }
          })
          .environment(favoritesManager)
+         .environment(cartManager)
       }
    }
 }
