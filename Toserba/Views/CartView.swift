@@ -80,7 +80,15 @@ struct CartView: View {
                   Text("$\(cartManager.displayTotalCartPrice, specifier: "%.2f")")
                      .font(.system(size: 16, weight: .bold))
                      .foregroundStyle(Color.textMain)
-               }.padding(.horizontal)
+               }
+               .padding(.horizontal)
+               .padding(.vertical, 24)
+
+               PaymentButton(action: cartManager.pay)
+                  .frame(height: 48)
+                  .clipShape(RoundedRectangle(cornerRadius: 12))
+                  .padding(.horizontal, 16)
+                  .padding(.bottom, 30)
             }
          }
          .overlay {

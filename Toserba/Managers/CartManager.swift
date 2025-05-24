@@ -11,13 +11,14 @@ import Foundation
 class CartManager {
    var productsInCart: [ProductInCart] = []
    var showAlert: Bool = false
+   let paymentService = PaymentService()
 
    var displayTotalQuantity: Int {
       productsInCart.reduce(0) { $0 + $1.quantity }
    }
 
    var displayTotalCartPrice: Double {
-      let totalPrice = productsInCart.reduce(0) { Double($1.quantity) * $1.product.price } 
+      let totalPrice = productsInCart.reduce(0) { $0 + Double($1.quantity) * $1.product.price }
       return totalPrice
    }
 
@@ -41,6 +42,18 @@ class CartManager {
             productsInCart[indexOfProductInCart] = ProductInCart(product: product, quantity: newQuantity)
          } else {
             productsInCart.remove(at: indexOfProductInCart)
+         }
+      }
+   }
+
+   func pay() {
+      guard productsInCart.count > 0 else {
+         return
+      }
+
+      paymentService.startPayment(productInCart: productsInCart) { success in
+         if success {
+            self.productsInCart.removeAll()
          }
       }
    }
